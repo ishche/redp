@@ -1,5 +1,3 @@
 # redp
-Open real estate data exchange protocol
+Real estate data exchange protocols collection. Well, not really collection. It will starts with YRL reader/writer. YRL is Yandex real estate markup language. It's using in http://realty.yandex.ru/ and many other realty web sites.
 
-## About ##
-This is just place to collect information about solutions in this field now.
