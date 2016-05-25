@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://webmaster.yandex.ru/schemas/feed/realty/2010-06">
+    <xs:element name="realty-feed">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="generation-date" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="offer">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="type" minOccurs="1" maxOccurs="1">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="продажа"/>
+                                        <xs:enumeration value="аренда"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="property-type">
+                                <!--
+                                Тип недвижимости (только для жилой недвижимости).
+                                Строго ограниченное значение — «жилая».
+                                -->
+                            </xs:element>
+                            <xs:element name="category">
+                                <!--
+                                Категория объекта.
+                                Возможные значения: «комната»/«room», «квартира»/«flat», «таунхаус»/«townhouse», «дом»/«house», «часть дома», «участок»/«lot», «земельный участок», «дом с участком»/«house with lot», «дача»/«cottage», «коммерческая»/«commercial».
+                                -->
+                            </xs:element>
+                            <xs:element name="commercial-type">
+                                <!--
+                                Категория коммерческого объекта. Элемент может повторяться несколько раз, если у объекта есть различные возможные назначения.
+                                Возможные значения: «auto repair» (автосервис), «business» (готовый бизнес), «free purpose» (помещения свободного назначения), «hotel» (гостиница), «land» (земли коммерческого назначения), «legal address» (юридический адрес), «manufacturing» (производственное помещение), «office» (офисные помещения), «public catering» (общепит), «retail» (торговые помещения), «warehouse» (склад).
+                                -->
+                            </xs:element>
+                            <xs:element name="commercial-building-type">
+                                <!--
+                                Тип здания, в котором находится объект.
+                                Возможные значения: «business center» (бизнес-центр), «detached building» (отдельно стоящее здание), «residential building» (встроенное помещение, жилой дом), «shopping center» (торговый центр), «warehouse» (складской комплекс).
+                                -->
+                            </xs:element>
+                            <xs:element name="purpose">
+                                <!--
+                                Рекомендуемое назначение объекта. Элемент может повторяться несколько раз.
+                                Возможные значения: «bank» (помещение для банка), «beauty shop» (салон красоты), «food store» (продуктовый магазин), «medical center» (медицинский центр), «touragency» (турагентство), «show room» (шоу-рум).
+                                -->
+                            </xs:element>
+                            <xs:element name="purpose-warehouse">
+                                <!--
+                                Назначение склада. Элемент может повторяться несколько раз.
+                                Возможные значения: «alcohol» (алкогольный склад), «pharmaceutical storehouse» (фармацевтический склад), «vegetable storehouse» (овощехранилище).
+                                -->
+                            </xs:element>
+                            <xs:element name="url" minOccurs="1" maxOccurs="1">
+                                <!--URL страницы с объявлением. Обязательный параметр для досок объявлений.-->
+                            </xs:element>
+                            <xs:element name="creation-date" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+                                <!--Дата создания объявления (в формате YYYY-MM-DDTHH:mm:ss+00:00) -->
+                            </xs:element>
+                            <xs:element name="last-update-date" type="xs:dateTime">
+                                <!--Дата последнего обновления объявления (в формате YYYY-MM-DDTHH:mm:ss+00:00) -->
+                            </xs:element>
+                            <xs:element name="expire-date" type="xs:dateTime">
+                                <!-- Дата и время, до которых объявление актуально (в формате YYYY-MM-DDTHH:mm:ss+00:00) -->
+                            </xs:element>
+                            <xs:element name="payed-adv">
+                                <!-- Признак оплаченного объявления (только для досок объявлений) -->
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="да"/>
+                                        <xs:enumeration value="нет"/>
+                                        <xs:enumeration value="true"/>
+                                        <xs:enumeration value="false"/>
+                                        <xs:enumeration value="1"/>
+                                        <xs:enumeration value="0"/>
+                                        <xs:enumeration value="+"/>
+                                        <xs:enumeration value="-"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="manually-added">
+                                <!-- Признак объявления, добавленного вручную (только для досок объявлений) -->
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="да"/>
+                                        <xs:enumeration value="нет"/>
+                                        <xs:enumeration value="true"/>
+                                        <xs:enumeration value="false"/>
+                                        <xs:enumeration value="1"/>
+                                        <xs:enumeration value="0"/>
+                                        <xs:enumeration value="+"/>
+                                        <xs:enumeration value="-"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="location" minOccurs="1" maxOccurs="1">
+                                <!-- Набор элементов, описывающих местоположение объекта. Во вложенных тегах детализируется информация об адресе объекта. -->
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="country" minOccurs="1" maxOccurs="1">
+                                            <!-- Страна, в которой расположен объект.
+                                            Ограничение. Сейчас принимаются объявления только об объектах недвижимости, расположенных в России.
+                                            -->
+                                        </xs:element>
+                                        <xs:element name="region">
+                                            <!-- Название субъекта РФ (необязательно для Москвы и Санкт-Петербурга). -->
+                                        </xs:element>
+                                        <xs:element name="district">
+                                            <!-- Название района субъекта РФ. -->
+                                        </xs:element>
+                                        <xs:element name="locality-name">
+                                            <!-- Название населенного пункта. -->
+                                        </xs:element>
+                                        <xs:element name="sub-locality-name">
+                                            <!-- Район населенного пункта. -->
+                                        </xs:element>
+                                        <xs:element name="address">
+                                            <!-- Улица и номер дома. -->
+                                        </xs:element>
+                                        <xs:element name="direction">
+                                            <!-- Шоссе (только для Москвы). -->
+                                        </xs:element>
+                                        <xs:element name="distance">
+                                            <!-- Расстояние по шоссе до МКАД (только для Москвы). Указывается в километрах. -->
+                                        </xs:element>
+                                        <xs:element name="latitude">
+                                        <!-- Географическая широта.  -->
+                                        </xs:element>
+                                        <xs:element name="longitude">
+                                            <!-- Географическая долгота. -->
+                                        </xs:element>
+                                        <xs:element name="metro">
+                                            <!-- Ближайшая станция метро (если таковых несколько, каждая должна быть указана в отдельном элементе). Во вложенных тэгах детализируется информация. -->
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="name">
+                                                        <!-- Название станции метро. -->
+                                                    </xs:element>
+                                                    <xs:element name="time-on-transport">
+                                                        <!-- Время до метро в минутах на транспорте. -->
+                                                    </xs:element>
+                                                    <xs:element name="time-on-foot">
+                                                        <!-- Время до метро в минутах пешком. -->
+                                                    </xs:element>
+                                                    <xs:element name="railway-station">
+                                                        <!-- Ближайшая ж/д станция (для загородной недвижимости). -->
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="internal-id" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
