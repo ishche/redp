@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://webmaster.yandex.ru/schemas/feed/realty/2010-06">
+           targetNamespace="http://webmaster.yandex.ru/schemas/feed/realty/2010-06"
+           xmlns:yrl="http://webmaster.yandex.ru/schemas/feed/realty/2010-06">
     <xs:simpleType name="yesno">
         <xs:restriction base="xs:string">
             <xs:enumeration value="да"/>
@@ -76,10 +77,10 @@
                             <xs:element name="expire-date" type="xs:dateTime">
                                 <!-- Дата и время, до которых объявление актуально (в формате YYYY-MM-DDTHH:mm:ss+00:00) -->
                             </xs:element>
-                            <xs:element name="payed-adv" type="yesno">
+                            <xs:element name="payed-adv" type="yrl:yesno">
                                 <!-- Признак оплаченного объявления (только для досок объявлений) -->
                             </xs:element>
-                            <xs:element name="manually-added" type="yesno">
+                            <xs:element name="manually-added" type="yrl:yesno">
                                 <!-- Признак объявления, добавленного вручную (только для досок объявлений) -->
                             </xs:element>
                             <xs:element name="location" minOccurs="1" maxOccurs="1">
@@ -113,7 +114,7 @@
                                             <!-- Расстояние по шоссе до МКАД (только для Москвы). Указывается в километрах. -->
                                         </xs:element>
                                         <xs:element name="latitude">
-                                        <!-- Географическая широта.  -->
+                                            <!-- Географическая широта.  -->
                                         </xs:element>
                                         <xs:element name="longitude">
                                             <!-- Географическая долгота. -->
@@ -225,19 +226,19 @@
                                 </xs:complexType>
                             </xs:element>
                             <!-- Дополнительная информация об условиях сделки (для жилой недвижимости) -->
-                            <xs:element name="not-for-agents" type="yesno">
+                            <xs:element name="not-for-agents" type="yrl:yesno">
                                 <!-- Просьба агентам не звонить. -->
                             </xs:element>
-                            <xs:element name="haggle" type="yesno">
+                            <xs:element name="haggle" type="yrl:yesno">
                                 <!-- Торг. -->
                             </xs:element>
-                            <xs:element name="mortgage" type="yesno">
+                            <xs:element name="mortgage" type="yrl:yesno">
                                 <!-- Ипотека. -->
                             </xs:element>
                             <xs:element name="prepayment">
                                 <!-- Предоплата. Указывается числовое значение в процентах без знака «%». -->
                             </xs:element>
-                            <xs:element name="rent-pledge" type="yesno">
+                            <xs:element name="rent-pledge" type="yrl:yesno">
                                 <!-- Залог. -->
                             </xs:element>
                             <xs:element name="agent-fee">
@@ -251,10 +252,10 @@
                                 еще значения: «direct rent» (прямая аренда), «subrent» (субаренда), «sale of lease rights» (продажа права аренды).
                                 -->
                             </xs:element>
-                            <xs:element name="with-pets" type="yesno">
+                            <xs:element name="with-pets" type="yrl:yesno">
                                 <!-- Для аренды: можно ли с животными. -->
                             </xs:element>
-                            <xs:element name="with-children" type="yesno">
+                            <xs:element name="with-children" type="yrl:yesno">
                                 <!-- Для аренды: можно ли с детьми. -->
                             </xs:element>
                             <!-- Дополнительная информация об условиях сделки (для коммерческой недвижимости) -->
@@ -268,13 +269,13 @@
                                 Возможные значения: от 0 (нет платежа) до 100 (платеж составляет месячную арендную ставку).
                                 -->
                             </xs:element>
-                            <xs:element name="cleaning-included" type="yesno">
+                            <xs:element name="cleaning-included" type="yrl:yesno">
                                 <!-- Клининг входит в договор аренды. -->
                             </xs:element>
-                            <xs:element name="utilities-included" type="yesno">
+                            <xs:element name="utilities-included" type="yrl:yesno">
                                 <!-- Коммунальные услуги включены в стоимость в договоре. -->
                             </xs:element>
-                            <xs:element name="electricity-included" type="yesno">
+                            <xs:element name="electricity-included" type="yrl:yesno">
                                 <!-- Электроэнергия включена в стоимость в договоре. -->
                             </xs:element>
                             <!-- Информация об объекте -->
@@ -355,7 +356,7 @@
                                 <!-- Тип участка. Рекомендуемые значения: «ИЖC», «садоводство». -->
                             </xs:element>
                             <!-- Описание жилого помещения -->
-                            <xs:element name="new-flat" type="yesno">
+                            <xs:element name="new-flat" type="yrl:yesno">
                                 <!-- Обязательный параметр для новостроек: устанавливается, если квартира продается в новостройке. -->
                             </xs:element>
                             <xs:element name="rooms" minOccurs="1" maxOccurs="1">
@@ -367,34 +368,34 @@
                             <xs:element name="floor">
                                 <!-- Этаж. -->
                             </xs:element>
-                            <xs:element name="open-plan" type="yesno">
+                            <xs:element name="open-plan" type="yrl:yesno">
                                 <!-- Свободная планировка. Строго ограниченные значения — «да», «true», «1», «+». -->
                             </xs:element>
-                            <xs:element name="apartments" type="yesno">
+                            <xs:element name="apartments" type="yrl:yesno">
                                 <!-- Апартаменты. -->
                             </xs:element>
                             <xs:element name="rooms-type">
                                 <!-- Тип комнат. Рекомендуемые значения: «смежные», «раздельные».-->
                             </xs:element>
-                            <xs:element name="phone" type="yesno">
+                            <xs:element name="phone" type="yrl:yesno">
                                 <!-- Наличие телефона. -->
                             </xs:element>
-                            <xs:element name="internet" type="yesno">
+                            <xs:element name="internet" type="yrl:yesno">
                                 <!-- Наличие интернета. -->
                             </xs:element>
-                            <xs:element name="room-furniture" type="yesno">
+                            <xs:element name="room-furniture" type="yrl:yesno">
                                 <!-- Наличие мебели. -->
                             </xs:element>
-                            <xs:element name="kitchen-furniture" type="yesno">
+                            <xs:element name="kitchen-furniture" type="yrl:yesno">
                                 <!-- Наличие мебели на кухне. -->
                             </xs:element>
-                            <xs:element name="television" type="yesno">
+                            <xs:element name="television" type="yrl:yesno">
                                 <!-- Наличие телевизора. -->
                             </xs:element>
-                            <xs:element name="washing-machine" type="yesno">
+                            <xs:element name="washing-machine" type="yrl:yesno">
                                 <!-- Наличие стиральной машины. -->
                             </xs:element>
-                            <xs:element name="refrigerator" type="yesno">
+                            <xs:element name="refrigerator" type="yrl:yesno">
                                 <!-- Наличие холодильника. -->
                             </xs:element>
                             <xs:element name="balcony">
@@ -416,71 +417,71 @@
                             <xs:element name="phone-lines">
                                 <!-- Количество телефонных линий. -->
                             </xs:element>
-                            <xs:element name="adding-phone-on-request" type="yesno">
+                            <xs:element name="adding-phone-on-request" type="yrl:yesno">
                                 <!-- Возможность добавления телефонных линий. -->
                             </xs:element>
-                            <xs:element name="self-selection-telecom" type="yesno">
+                            <xs:element name="self-selection-telecom" type="yrl:yesno">
                                 <!-- Возможность самостоятельного выбора оператора телекоммуникационных услуг -->
                             </xs:element>
-                            <xs:element name="air-conditioner" type="yesno">
+                            <xs:element name="air-conditioner" type="yrl:yesno">
                                 <!-- Наличие кондиционирования. -->
                             </xs:element>
-                            <xs:element name="ventilation" type="yesno">
+                            <xs:element name="ventilation" type="yrl:yesno">
                                 <!-- Наличие вентиляции. -->
                             </xs:element>
-                            <xs:element name="fire-alarm" type="yesno">
+                            <xs:element name="fire-alarm" type="yrl:yesno">
                                 <!-- Наличие пожарной сигнализации. -->
                             </xs:element>
-                            <xs:element name="heating-supply" type="yesno">
+                            <xs:element name="heating-supply" type="yrl:yesno">
                                 <!-- Наличие отопления. -->
                             </xs:element>
-                            <xs:element name="water-supply" type="yesno">
+                            <xs:element name="water-supply" type="yrl:yesno">
                                 <!-- Наличие водопровода. -->
                             </xs:element>
-                            <xs:element name="sewerage-supply" type="yesno">
+                            <xs:element name="sewerage-supply" type="yrl:yesno">
                                 <!-- Наличие канализации. -->
                             </xs:element>
-                            <xs:element name="electricity-supply" type="yesno">
+                            <xs:element name="electricity-supply" type="yrl:yesno">
                                 <!-- Наличие электроснабжения. -->
                             </xs:element>
                             <xs:element name="electric-capacity" type="xs:integer">
                                 <!-- Выделенная электрическая мощность в кВт (указывается целое число). -->
                             </xs:element>
-                            <xs:element name="gas-supply" type="yesno">
+                            <xs:element name="gas-supply" type="yrl:yesno">
                                 <!-- Подключение к газовым сетям. -->
                             </xs:element>
                             <xs:element name="window-type">
                                 <!-- Тип окон. Рекомендуемые значения: «витринные», «обычные», «маленькие». -->
                             </xs:element>
                             <!-- Описание особенностей складских и производственных помещений -->
-                            <xs:element name="responsible-storage" type="yesno">
+                            <xs:element name="responsible-storage" type="yrl:yesno">
                                 <!-- Ответственное хранение. -->
                             </xs:element>
                             <xs:element name="pallet-price">
                                 <!-- Стоимость палета-места в месяц в рублях с учетом налогов (в случае ответственного хранения). -->
                             </xs:element>
-                            <xs:element name="freight-elevator" type="yesno">
+                            <xs:element name="freight-elevator" type="yrl:yesno">
                                 <!-- Наличие грузового лифта. -->
                             </xs:element>
-                            <xs:element name="truck-entrance" type="yesno">
+                            <xs:element name="truck-entrance" type="yrl:yesno">
                                 <!-- Возможность подъезда фуры. -->
                             </xs:element>
-                            <xs:element name="ramp" type="yesno">
+                            <xs:element name="ramp" type="yrl:yesno">
                                 <!-- Наличие пандуса. -->
                             </xs:element>
-                            <xs:element name="railway" type="yesno">
+                            <xs:element name="railway" type="yrl:yesno">
                                 <!-- Наличие ветки железной дороги. -->
                             </xs:element>
-                            <xs:element name="office-warehouse" type="yesno">
+                            <xs:element name="office-warehouse" type="yrl:yesno">
                                 <!-- Наличие офиса на складе. -->
                             </xs:element>
-                            <xs:element name="open-area" type="yesno">
+                            <xs:element name="open-area" type="yrl:yesno">
                                 <!-- Наличие открытой площадки. -->
                             </xs:element>
-                            <xs:element name="service-three-pl" type="yesno">
+                            <xs:element name="service-three-pl" type="yrl:yesno">
                                 <!-- Наличие 3PL (логистических) услуг.-->
                             </xs:element>
-                            <xs:element name="temperature-comment" type="yesno">
+                            <xs:element name="temperature-comment" type="yrl:yesno">
                                 <!-- Комментарий про температурный режим на складе. -->
                             </xs:element>
                             <!-- Описание здания -->
@@ -543,22 +544,22 @@
                                     </xs:restriction>
                                 </xs:simpleType>
                             </xs:element>
-                            <xs:element name="access-control-system" type="yesno">
+                            <xs:element name="access-control-system" type="yrl:yesno">
                                 <!-- Наличие пропускной системы. -->
                             </xs:element>
-                            <xs:element name="twenty-four-seven" type="yesno">
+                            <xs:element name="twenty-four-seven" type="yrl:yesno">
                                 <!-- Возможность круглосуточного доступа сотрудников арендатора на объект аренды 7 дней в неделю. -->
                             </xs:element>
-                            <xs:element name="lift" type="yesno">
+                            <xs:element name="lift" type="yrl:yesno">
                                 <!-- Наличие лифта. -->
                             </xs:element>
-                            <xs:element name="rubbish-chute" type="yesno">
+                            <xs:element name="rubbish-chute" type="yrl:yesno">
                                 <!-- Наличие мусоропровода. -->
                             </xs:element>
-                            <xs:element name="is-elite" type="yesno">
+                            <xs:element name="is-elite" type="yrl:yesno">
                                 <!-- Элитная недвижимость. -->
                             </xs:element>
-                            <xs:element name="parking" type="yesno">
+                            <xs:element name="parking" type="yrl:yesno">
                                 <!-- Наличие охраняемой парковки. -->
                             </xs:element>
                             <xs:element name="parking-places">
@@ -567,28 +568,28 @@
                             <xs:element name="parking-place-price">
                                 <!-- Стоимость одного парковочного места в месяц в рублях. -->
                             </xs:element>
-                            <xs:element name="parking-guest" type="yesno">
+                            <xs:element name="parking-guest" type="yrl:yesno">
                                 <!-- Наличие гостевых парковочных мест -->
                             </xs:element>
                             <xs:element name="parking-guest-places">
                                 <!-- Количество гостевых парковочных мест. -->
                             </xs:element>
-                            <xs:element name="alarm" type="yesno">
+                            <xs:element name="alarm" type="yrl:yesno">
                                 <!-- Наличие сигнализации. -->
                             </xs:element>
-                            <xs:element name="security" type="yesno">
+                            <xs:element name="security" type="yrl:yesno">
                                 <!-- Наличие охраны. -->
                             </xs:element>
                             <xs:element name="ceiling-height">
                                 <!-- Высота потолков в метрах. -->
                             </xs:element>
-                            <xs:element name="eating-facilities" type="yesno">
+                            <xs:element name="eating-facilities" type="yrl:yesno">
                                 <!-- Наличие общепита в здании.
                                 Примечание. Актуально для бизнес-центров и складских комплексов.
                                 -->
                             </xs:element>
                             <!-- Описание загородной недвижимости -->
-                            <xs:element name="pmg" type="yesno">
+                            <xs:element name="pmg" type="yrl:yesno">
                                 <!-- Возможность для постоянного места жительства. -->
                             </xs:element>
                             <xs:element name="kitchen">
@@ -600,13 +601,13 @@
                             <xs:element name="shower">
                                 <!-- Расположение душа. Возможные значения: «в доме», «на улице». -->
                             </xs:element>
-                            <xs:element name="pool" type="yesno">
+                            <xs:element name="pool" type="yrl:yesno">
                                 <!-- Наличие бассейна. -->
                             </xs:element>
-                            <xs:element name="sauna" type="yesno">
+                            <xs:element name="sauna" type="yrl:yesno">
                                 <!-- Наличие сауны/бани. -->
                             </xs:element>
-                            <xs:element name="billiard" type="yesno">
+                            <xs:element name="billiard" type="yrl:yesno">
                                 <!-- Наличие бильярда. -->
                             </xs:element>
                         </xs:sequence>
