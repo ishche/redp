@@ -14,6 +14,58 @@
             <xs:enumeration value="-"/>
         </xs:restriction>
     </xs:simpleType>
+    <xs:simpleType name="OfferType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="продажа"/>
+            <xs:enumeration value="аренда"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="Space">
+        <xs:sequence>
+            <xs:element name="value">
+                <!-- value	Площадь (числовое значение). -->
+            </xs:element>
+            <xs:element name="unit">
+                <!-- Единица площади помещения или участка. Элемент необходим, если цена указана за единицу площади.
+                Рекомендуемые значения: «кв. м», «sq. m».
+                -->
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Price">
+        <xs:sequence>
+            <xs:element name="value" minOccurs="1" maxOccurs="1">
+                <!-- Цена (сумма указывается без пробелов).
+                Внимание! Цена должна включать в себя НДС (если он есть) и постоянные эксплуатационные расходы (для коммерческой недвижимости).
+                -->
+            </xs:element>
+            <xs:element name="currency">
+                <!-- Валюта, в которой указана цена.
+                Поддерживаемые значения:
+                 «RUR» или «RUB» — российский рубль.
+                 «EUR» — евро.
+                 «USD» — американский доллар.
+                -->
+            </xs:element>
+            <xs:element name="unit">
+                <!-- Единица площади помещения или участка. Элемент необходим, если цена
+                указана за единицу площади.
+                Рекомендуемые значения: «кв. м», «cотка», «гектар», «sq. m», «hectare».
+                -->
+            </xs:element>
+            <xs:element name="period">
+                <!-- Длительность аренды. Рекомендуемые значения: «день» или «day», «месяц» или «month». -->
+            </xs:element>
+            <xs:element name="taxation-form">
+                <!-- Форма налогобложения арендодателя для аренды.
+                Возможные значения:
+                «НДС» (арендодатель — плательщик НДС),
+                «УСН» (арендодатель работает по упрощенной системе налогообложения).
+                -->
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
     <xs:element name="realty-feed">
         <xs:complexType>
             <xs:sequence>
@@ -21,14 +73,7 @@
                 <xs:element name="offer">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="type" minOccurs="1" maxOccurs="1">
-                                <xs:simpleType>
-                                    <xs:restriction base="xs:string">
-                                        <xs:enumeration value="продажа"/>
-                                        <xs:enumeration value="аренда"/>
-                                    </xs:restriction>
-                                </xs:simpleType>
-                            </xs:element>
+                            <xs:element name="type" minOccurs="1" maxOccurs="1" type="yrl:OfferType"/>
                             <xs:element name="property-type">
                                 <!--
                                 Тип недвижимости (только для жилой недвижимости).
@@ -189,41 +234,8 @@
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
-                            <xs:element name="price">
+                            <xs:element name="price" type="yrl:Price">
                                 <!-- Набор элементов, описывающих стоимость объекта. -->
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="value" minOccurs="1" maxOccurs="1">
-                                            <!-- Цена (сумма указывается без пробелов).
-                                            Внимание! Цена должна включать в себя НДС (если он есть) и постоянные эксплуатационные расходы (для коммерческой недвижимости).
-                                            -->
-                                        </xs:element>
-                                        <xs:element name="currency">
-                                            <!-- Валюта, в которой указана цена.
-                                            Поддерживаемые значения:
-                                             «RUR» или «RUB» — российский рубль.
-                                             «EUR» — евро.
-                                             «USD» — американский доллар.
-                                            -->
-                                        </xs:element>
-                                        <xs:element name="unit">
-                                            <!-- Единица площади помещения или участка. Элемент необходим, если цена
-                                            указана за единицу площади.
-                                            Рекомендуемые значения: «кв. м», «cотка», «гектар», «sq. m», «hectare».
-                                            -->
-                                        </xs:element>
-                                        <xs:element name="period">
-                                            <!-- Длительность аренды. Рекомендуемые значения: «день» или «day», «месяц» или «month». -->
-                                        </xs:element>
-                                        <xs:element name="taxation-form">
-                                            <!-- Форма налогобложения арендодателя для аренды.
-                                            Возможные значения:
-                                            «НДС» (арендодатель — плательщик НДС),
-                                            «УСН» (арендодатель работает по упрощенной системе налогообложения).
-                                            -->
-                                        </xs:element>
-                                    </xs:sequence>
-                                </xs:complexType>
                             </xs:element>
                             <!-- Дополнительная информация об условиях сделки (для жилой недвижимости) -->
                             <xs:element name="not-for-agents" type="yrl:yesno">
@@ -279,61 +291,25 @@
                                 <!-- Электроэнергия включена в стоимость в договоре. -->
                             </xs:element>
                             <!-- Информация об объекте -->
-                            <xs:element name="area">
+                            <xs:element name="area" type="yrl:Space">
                                 <!-- Общая площадь. Обязательное поле для всех объявлений, кроме участков (см. элемент lot-area). -->
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="value">
-                                            <!-- value	Площадь (числовое значение). -->
-                                        </xs:element>
-                                        <xs:element name="unit">
-                                            <!-- Единица площади помещения или участка. Элемент необходим, если цена указана за единицу площади.
-                                            Рекомендуемые значения: «кв. м», «sq. m».
-                                            -->
-                                        </xs:element>
-                                    </xs:sequence>
-                                </xs:complexType>
                             </xs:element>
-                            <xs:element name="room-space">
+                            <xs:element name="room-space" type="yrl:Space">
                                 <!-- Площадь комнаты. Количество передаваемых тегов должно соответствовать количеству комнат. -->
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="value"/>
-                                        <xs:element name="unit"/>
-                                    </xs:sequence>
-                                </xs:complexType>
                             </xs:element>
-                            <xs:element name="living-space">
+                            <xs:element name="living-space" type="yrl:Space">
                                 <!-- Жилая площадь (при продаже комнаты — площадь комнаты). -->
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="value"/>
-                                        <xs:element name="unit"/>
-                                    </xs:sequence>
-                                </xs:complexType>
                             </xs:element>
-                            <xs:element name="kitchen-space">
+                            <xs:element name="kitchen-space" type="yrl:Space">
                                 <!-- Площадь кухни. -->
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="value"/>
-                                        <xs:element name="unit"/>
-                                    </xs:sequence>
-                                </xs:complexType>
                             </xs:element>
-                            <xs:element name="lot-area">
+                            <xs:element name="lot-area" type="yrl:Space">
                                 <!-- Площадь участка.
                                 Указывается для категорий «дом с участком» и «участок», в коммерческой недвижимости — для
                                 категории «земли коммерческого назначения» или для обозначения площади участка, прилегающего
                                 к отдельно стоящему зданию.
                                 Примечание. Объекты площадью более 1 гектара признаются участками коммерческого назначения.
                                 -->
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="value"/>
-                                        <xs:element name="unit"/>
-                                    </xs:sequence>
-                                </xs:complexType>
                             </xs:element>
                             <xs:element name="image">
                                 <!-- Фотография (может быть несколько тегов).
