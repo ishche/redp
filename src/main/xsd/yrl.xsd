@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://webmaster.yandex.ru/schemas/feed/realty/2010-06"
-           xmlns:yrl="http://webmaster.yandex.ru/schemas/feed/realty/2010-06">
+<xs:schema
+        id="yrl"
+        elementFormDefault="qualified"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://webmaster.yandex.ru/schemas/feed/realty/2010-06"
+        xmlns:yrl="http://webmaster.yandex.ru/schemas/feed/realty/2010-06">
+
     <xs:simpleType name="yesno">
         <xs:restriction base="xs:string">
             <xs:enumeration value="да"/>
@@ -14,6 +18,7 @@
             <xs:enumeration value="-"/>
         </xs:restriction>
     </xs:simpleType>
+
     <xs:simpleType name="OfferType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="продажа"/>
@@ -66,530 +71,531 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+
+    <xs:complexType name="Offer">
+        <xs:sequence>
+            <xs:element name="type" minOccurs="1" maxOccurs="1" type="yrl:OfferType"/>
+            <xs:element name="property-type">
+                <!--
+                Тип недвижимости (только для жилой недвижимости).
+                Строго ограниченное значение — «жилая».
+                -->
+            </xs:element>
+            <xs:element name="category">
+                <!--
+                Категория объекта.
+                Возможные значения: «комната»/«room», «квартира»/«flat», «таунхаус»/«townhouse», «дом»/«house», «часть дома», «участок»/«lot», «земельный участок», «дом с участком»/«house with lot», «дача»/«cottage», «коммерческая»/«commercial».
+                -->
+            </xs:element>
+            <xs:element name="commercial-type">
+                <!--
+                Категория коммерческого объекта. Элемент может повторяться несколько раз, если у объекта есть различные возможные назначения.
+                Возможные значения: «auto repair» (автосервис), «business» (готовый бизнес), «free purpose» (помещения свободного назначения), «hotel» (гостиница), «land» (земли коммерческого назначения), «legal address» (юридический адрес), «manufacturing» (производственное помещение), «office» (офисные помещения), «public catering» (общепит), «retail» (торговые помещения), «warehouse» (склад).
+                -->
+            </xs:element>
+            <xs:element name="commercial-building-type">
+                <!--
+                Тип здания, в котором находится объект.
+                Возможные значения: «business center» (бизнес-центр), «detached building» (отдельно стоящее здание), «residential building» (встроенное помещение, жилой дом), «shopping center» (торговый центр), «warehouse» (складской комплекс).
+                -->
+            </xs:element>
+            <xs:element name="purpose">
+                <!--
+                Рекомендуемое назначение объекта. Элемент может повторяться несколько раз.
+                Возможные значения: «bank» (помещение для банка), «beauty shop» (салон красоты), «food store» (продуктовый магазин), «medical center» (медицинский центр), «touragency» (турагентство), «show room» (шоу-рум).
+                -->
+            </xs:element>
+            <xs:element name="purpose-warehouse">
+                <!--
+                Назначение склада. Элемент может повторяться несколько раз.
+                Возможные значения: «alcohol» (алкогольный склад), «pharmaceutical storehouse» (фармацевтический склад), «vegetable storehouse» (овощехранилище).
+                -->
+            </xs:element>
+            <xs:element name="url" minOccurs="1" maxOccurs="1">
+                <!--URL страницы с объявлением. Обязательный параметр для досок объявлений.-->
+            </xs:element>
+            <xs:element name="creation-date" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+                <!--Дата создания объявления (в формате YYYY-MM-DDTHH:mm:ss+00:00) -->
+            </xs:element>
+            <xs:element name="last-update-date" type="xs:dateTime">
+                <!--Дата последнего обновления объявления (в формате YYYY-MM-DDTHH:mm:ss+00:00) -->
+            </xs:element>
+            <xs:element name="expire-date" type="xs:dateTime">
+                <!-- Дата и время, до которых объявление актуально (в формате YYYY-MM-DDTHH:mm:ss+00:00) -->
+            </xs:element>
+            <xs:element name="payed-adv" type="yrl:yesno">
+                <!-- Признак оплаченного объявления (только для досок объявлений) -->
+            </xs:element>
+            <xs:element name="manually-added" type="yrl:yesno">
+                <!-- Признак объявления, добавленного вручную (только для досок объявлений) -->
+            </xs:element>
+            <xs:element name="location" minOccurs="1" maxOccurs="1">
+                <!-- Набор элементов, описывающих местоположение объекта. Во вложенных тегах детализируется информация об адресе объекта. -->
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="country" minOccurs="1" maxOccurs="1">
+                            <!-- Страна, в которой расположен объект.
+                            Ограничение. Сейчас принимаются объявления только об объектах недвижимости, расположенных в России.
+                            -->
+                        </xs:element>
+                        <xs:element name="region">
+                            <!-- Название субъекта РФ (необязательно для Москвы и Санкт-Петербурга). -->
+                        </xs:element>
+                        <xs:element name="district">
+                            <!-- Название района субъекта РФ. -->
+                        </xs:element>
+                        <xs:element name="locality-name">
+                            <!-- Название населенного пункта. -->
+                        </xs:element>
+                        <xs:element name="sub-locality-name">
+                            <!-- Район населенного пункта. -->
+                        </xs:element>
+                        <xs:element name="address">
+                            <!-- Улица и номер дома. -->
+                        </xs:element>
+                        <xs:element name="direction">
+                            <!-- Шоссе (только для Москвы). -->
+                        </xs:element>
+                        <xs:element name="distance">
+                            <!-- Расстояние по шоссе до МКАД (только для Москвы). Указывается в километрах. -->
+                        </xs:element>
+                        <xs:element name="latitude">
+                            <!-- Географическая широта.  -->
+                        </xs:element>
+                        <xs:element name="longitude">
+                            <!-- Географическая долгота. -->
+                        </xs:element>
+                        <xs:element name="metro">
+                            <!-- Ближайшая станция метро (если таковых несколько, каждая должна быть указана в отдельном элементе). Во вложенных тэгах детализируется информация. -->
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="name">
+                                        <!-- Название станции метро. -->
+                                    </xs:element>
+                                    <xs:element name="time-on-transport">
+                                        <!-- Время до метро в минутах на транспорте. -->
+                                    </xs:element>
+                                    <xs:element name="time-on-foot">
+                                        <!-- Время до метро в минутах пешком. -->
+                                    </xs:element>
+                                    <xs:element name="railway-station">
+                                        <!-- Ближайшая ж/д станция (для загородной недвижимости). -->
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="sales-agent">
+                <!-- Информация о продавце или арендодателе -->
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="name">
+                            <!-- Имя продавца, арендодателя или агента. -->
+                        </xs:element>
+                        <xs:element name="phone" minOccurs="1">
+                            <!--
+                            Контактный номер телефона (указывается в международном формате).
+                            Если номеров несколько, каждый из них необходимо передавать в отдельном элементе phone.
+                            Внимание! Для агентств недвижимости обязательно должны быть указаны прямые телефоны агентов.
+                            -->
+                        </xs:element>
+                        <xs:element name="category">
+                            <!-- Тип продавца или арендодателя. -->
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="владелец"/>
+                                    <xs:enumeration value="агентство"/>
+                                    <xs:enumeration value="застройщик"/>
+                                    <xs:enumeration value="owner"/>
+                                    <xs:enumeration value="agency"/>
+                                    <xs:enumeration value="developer"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="organization">
+                            <!-- Название организации. -->
+                        </xs:element>
+                        <xs:element name="agency-id">
+                            <!-- Внутренний ID агентства в базе партнера (только для досок объявлений). -->
+                        </xs:element>
+                        <xs:element name="url">
+                            <!-- Сайт агентства или застройщика. -->
+                        </xs:element>
+                        <xs:element name="email">
+                            <!-- Электронный адрес продавца. -->
+                        </xs:element>
+                        <xs:element name="photo">
+                            <!-- Ссылка на фотографию агента или логотип компании. -->
+                        </xs:element>
+                        <xs:element name="partner">
+                            <!-- Название партнера, предоставившего объявление (только для досок объявлений). -->
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="price" type="yrl:Price">
+                <!-- Набор элементов, описывающих стоимость объекта. -->
+            </xs:element>
+            <!-- Дополнительная информация об условиях сделки (для жилой недвижимости) -->
+            <xs:element name="not-for-agents" type="yrl:yesno">
+                <!-- Просьба агентам не звонить. -->
+            </xs:element>
+            <xs:element name="haggle" type="yrl:yesno">
+                <!-- Торг. -->
+            </xs:element>
+            <xs:element name="mortgage" type="yrl:yesno">
+                <!-- Ипотека. -->
+            </xs:element>
+            <xs:element name="prepayment">
+                <!-- Предоплата. Указывается числовое значение в процентах без знака «%». -->
+            </xs:element>
+            <xs:element name="rent-pledge" type="yrl:yesno">
+                <!-- Залог. -->
+            </xs:element>
+            <xs:element name="agent-fee">
+                <!-- Комиссия агента. Указывается числовое значение в процентах без знака «%». -->
+            </xs:element>
+            <xs:element name="deal-status">
+                <!-- Тип сделки.
+                Возможные значения: «прямая продажа», «встречная продажа», «встречная продажа», «214 ФЗ», «переуступка».
+                Для вторичной недвижимости следует отмечать тип сделки — «прямая продажа» или «встречная продажа».
+                Внимание! Если параметр отсутствует, все объявления партнера в новостройках считаются квартирами от застройщика.
+                еще значения: «direct rent» (прямая аренда), «subrent» (субаренда), «sale of lease rights» (продажа права аренды).
+                -->
+            </xs:element>
+            <xs:element name="with-pets" type="yrl:yesno">
+                <!-- Для аренды: можно ли с животными. -->
+            </xs:element>
+            <xs:element name="with-children" type="yrl:yesno">
+                <!-- Для аренды: можно ли с детьми. -->
+            </xs:element>
+            <!-- Дополнительная информация об условиях сделки (для коммерческой недвижимости) -->
+            <xs:element name="commission">
+                <!-- Размер комиссии для клиента в процентах.
+                Возможные значения: от 0 (нет комиссии) до 100 (комиссия составляет месячную арендную ставку).
+                -->
+            </xs:element>
+            <xs:element name="security-payment">
+                <!-- Размер обеспечительного платежа в процентах.
+                Возможные значения: от 0 (нет платежа) до 100 (платеж составляет месячную арендную ставку).
+                -->
+            </xs:element>
+            <xs:element name="cleaning-included" type="yrl:yesno">
+                <!-- Клининг входит в договор аренды. -->
+            </xs:element>
+            <xs:element name="utilities-included" type="yrl:yesno">
+                <!-- Коммунальные услуги включены в стоимость в договоре. -->
+            </xs:element>
+            <xs:element name="electricity-included" type="yrl:yesno">
+                <!-- Электроэнергия включена в стоимость в договоре. -->
+            </xs:element>
+            <!-- Информация об объекте -->
+            <xs:element name="area" type="yrl:Space">
+                <!-- Общая площадь. Обязательное поле для всех объявлений, кроме участков (см. элемент lot-area). -->
+            </xs:element>
+            <xs:element name="room-space" type="yrl:Space">
+                <!-- Площадь комнаты. Количество передаваемых тегов должно соответствовать количеству комнат. -->
+            </xs:element>
+            <xs:element name="living-space" type="yrl:Space">
+                <!-- Жилая площадь (при продаже комнаты — площадь комнаты). -->
+            </xs:element>
+            <xs:element name="kitchen-space" type="yrl:Space">
+                <!-- Площадь кухни. -->
+            </xs:element>
+            <xs:element name="lot-area" type="yrl:Space">
+                <!-- Площадь участка.
+                Указывается для категорий «дом с участком» и «участок», в коммерческой недвижимости — для
+                категории «земли коммерческого назначения» или для обозначения площади участка, прилегающего
+                к отдельно стоящему зданию.
+                Примечание. Объекты площадью более 1 гектара признаются участками коммерческого назначения.
+                -->
+            </xs:element>
+            <xs:element name="image">
+                <!-- Фотография (может быть несколько тегов).
+                Примечание. Обязательное поле для объявлений о сдаче недвижимости в аренду.
+                Фотографии планировок следует передавать первым тегом image. Не следует передавать изображения, не имеющие прямого отношения к объекту (например, логотипы или фотографии сотрудников).
+                -->
+            </xs:element>
+            <xs:element name="renovation">
+                <!-- Ремонт.
+                Рекомендуемые значения: «евро», «дизайнерский», «частичный ремонт», «хороший», «с отделкой», «черновая отделка», «требует ремонта».
+                -->
+            </xs:element>
+            <xs:element name="quality">
+                <!-- Состояние объекта. Рекомендуемые значения: «хорошее», «отличное», «нормальное», «плохое». -->
+            </xs:element>
+            <xs:element name="description">
+                <!-- Дополнительная информация (описание в свободной форме). -->
+            </xs:element>
+            <xs:element name="lot-type">
+                <!-- Тип участка. Рекомендуемые значения: «ИЖC», «садоводство». -->
+            </xs:element>
+            <!-- Описание жилого помещения -->
+            <xs:element name="new-flat" type="yrl:yesno">
+                <!-- Обязательный параметр для новостроек: устанавливается, если квартира продается в новостройке. -->
+            </xs:element>
+            <xs:element name="rooms" minOccurs="1" maxOccurs="1">
+                <!-- Общее количество комнат в квартире. -->
+            </xs:element>
+            <xs:element name="rooms-offered" minOccurs="1" maxOccurs="1">
+                <!-- Для продажи и аренды комнат: указывается количество комнат, участвующих в сделке. -->
+            </xs:element>
+            <xs:element name="floor">
+                <!-- Этаж. -->
+            </xs:element>
+            <xs:element name="open-plan" type="yrl:yesno">
+                <!-- Свободная планировка. Строго ограниченные значения — «да», «true», «1», «+». -->
+            </xs:element>
+            <xs:element name="apartments" type="yrl:yesno">
+                <!-- Апартаменты. -->
+            </xs:element>
+            <xs:element name="rooms-type">
+                <!-- Тип комнат. Рекомендуемые значения: «смежные», «раздельные».-->
+            </xs:element>
+            <xs:element name="phone" type="yrl:yesno">
+                <!-- Наличие телефона. -->
+            </xs:element>
+            <xs:element name="internet" type="yrl:yesno">
+                <!-- Наличие интернета. -->
+            </xs:element>
+            <xs:element name="room-furniture" type="yrl:yesno">
+                <!-- Наличие мебели. -->
+            </xs:element>
+            <xs:element name="kitchen-furniture" type="yrl:yesno">
+                <!-- Наличие мебели на кухне. -->
+            </xs:element>
+            <xs:element name="television" type="yrl:yesno">
+                <!-- Наличие телевизора. -->
+            </xs:element>
+            <xs:element name="washing-machine" type="yrl:yesno">
+                <!-- Наличие стиральной машины. -->
+            </xs:element>
+            <xs:element name="refrigerator" type="yrl:yesno">
+                <!-- Наличие холодильника. -->
+            </xs:element>
+            <xs:element name="balcony">
+                <!-- Тип балкона. Возможные значения: «балкон», «лоджия», «2 балкона», «2 лоджии» и т. п. -->
+            </xs:element>
+            <xs:element name="bathroom-unit">
+                <!-- Тип санузла. Рекомендуемые значения: «совмещенный», «раздельный», числовое значение — например «2». -->
+            </xs:element>
+            <xs:element name="floor-covering">
+                <!-- Покрытие пола. Рекомендуемые значения: «паркет», «ламинат», «ковролин», «линолеум». -->
+            </xs:element>
+            <xs:element name="window-view">
+                <!-- Вид из окон. Рекомендуемые значения: «во двор», «на улицу». -->
+            </xs:element>
+            <!-- Описание нежилого помещения -->
+            <xs:element name="entrance-type">
+                <!-- Вход в помещение. Возможные значения: «separate» (отдельный), «common» (общий). -->
+            </xs:element>
+            <xs:element name="phone-lines">
+                <!-- Количество телефонных линий. -->
+            </xs:element>
+            <xs:element name="adding-phone-on-request" type="yrl:yesno">
+                <!-- Возможность добавления телефонных линий. -->
+            </xs:element>
+            <xs:element name="self-selection-telecom" type="yrl:yesno">
+                <!-- Возможность самостоятельного выбора оператора телекоммуникационных услуг -->
+            </xs:element>
+            <xs:element name="air-conditioner" type="yrl:yesno">
+                <!-- Наличие кондиционирования. -->
+            </xs:element>
+            <xs:element name="ventilation" type="yrl:yesno">
+                <!-- Наличие вентиляции. -->
+            </xs:element>
+            <xs:element name="fire-alarm" type="yrl:yesno">
+                <!-- Наличие пожарной сигнализации. -->
+            </xs:element>
+            <xs:element name="heating-supply" type="yrl:yesno">
+                <!-- Наличие отопления. -->
+            </xs:element>
+            <xs:element name="water-supply" type="yrl:yesno">
+                <!-- Наличие водопровода. -->
+            </xs:element>
+            <xs:element name="sewerage-supply" type="yrl:yesno">
+                <!-- Наличие канализации. -->
+            </xs:element>
+            <xs:element name="electricity-supply" type="yrl:yesno">
+                <!-- Наличие электроснабжения. -->
+            </xs:element>
+            <xs:element name="electric-capacity" type="xs:integer">
+                <!-- Выделенная электрическая мощность в кВт (указывается целое число). -->
+            </xs:element>
+            <xs:element name="gas-supply" type="yrl:yesno">
+                <!-- Подключение к газовым сетям. -->
+            </xs:element>
+            <xs:element name="window-type">
+                <!-- Тип окон. Рекомендуемые значения: «витринные», «обычные», «маленькие». -->
+            </xs:element>
+            <!-- Описание особенностей складских и производственных помещений -->
+            <xs:element name="responsible-storage" type="yrl:yesno">
+                <!-- Ответственное хранение. -->
+            </xs:element>
+            <xs:element name="pallet-price">
+                <!-- Стоимость палета-места в месяц в рублях с учетом налогов (в случае ответственного хранения). -->
+            </xs:element>
+            <xs:element name="freight-elevator" type="yrl:yesno">
+                <!-- Наличие грузового лифта. -->
+            </xs:element>
+            <xs:element name="truck-entrance" type="yrl:yesno">
+                <!-- Возможность подъезда фуры. -->
+            </xs:element>
+            <xs:element name="ramp" type="yrl:yesno">
+                <!-- Наличие пандуса. -->
+            </xs:element>
+            <xs:element name="railway" type="yrl:yesno">
+                <!-- Наличие ветки железной дороги. -->
+            </xs:element>
+            <xs:element name="office-warehouse" type="yrl:yesno">
+                <!-- Наличие офиса на складе. -->
+            </xs:element>
+            <xs:element name="open-area" type="yrl:yesno">
+                <!-- Наличие открытой площадки. -->
+            </xs:element>
+            <xs:element name="service-three-pl" type="yrl:yesno">
+                <!-- Наличие 3PL (логистических) услуг.-->
+            </xs:element>
+            <xs:element name="temperature-comment" type="yrl:yesno">
+                <!-- Комментарий про температурный режим на складе. -->
+            </xs:element>
+            <!-- Описание здания -->
+            <xs:element name="floors-total">
+                <!-- Общее количество этажей в доме (обязательный элемент для новостроек). -->
+            </xs:element>
+            <xs:element name="building-name">
+                <!-- Название жилого комплекса (обязательное элемент для новостроек в Москве и Санкт-Петербурге). -->
+            </xs:element>
+            <xs:element name="yandex-building-id">
+                <!-- Идентификатор жилого комплекса в базе данных Яндекса — параметр только для
+                новостроек (обязательное поле для Москвы и Санкт-Петербурга).
+                Идентификатор можно получить на сервисе — из url карточки жилого комплекса.
+                Полный список идентификаторов yandex-building-id предоставляется по запросу на info@realty.yandex.ru.
+                -->
+            </xs:element>
+            <xs:element name="office-class">
+                <!-- Класс бизнес-центра. Возможные значения: «A», «A+», «B», «B+», «C», «C+». -->
+            </xs:element>
+            <xs:element name="building-type">
+                <!--  Тип дома. Рекомендуемые значения: «кирпичный», «монолит», «панельный», «кирпично-монолитный», «блочный», «деревянный». -->
+            </xs:element>
+            <xs:element name="building-series">
+                <!-- Серия дома. -->
+            </xs:element>
+            <xs:element name="building-phase">
+                <!-- Очередь строительства. Возможные значения: «очередь 1», «II очередь», «3» и т. п. -->
+            </xs:element>
+            <xs:element name="building-section">
+                <!-- Корпус дома. Возможные значения: «корпус 1», «корпус А», «дом 3» и т. п. -->
+            </xs:element>
+            <xs:element name="built-year">
+                <!-- Год постройки, для новостроек — год сдачи (обязательный элемент для новостроек в
+                Москве и Санкт-Петербурге).
+                Год необходимо указывать полностью, например, «1996», а не «96»).
+                -->
+            </xs:element>
+            <xs:element name="ready-quarter">
+                <!-- Для новостроек: квартал сдачи дома (обязательный элемент для новостроек в Москве и Санкт-Петербурге).
+                Строго ограниченные значения: «1», «2», «3», «4».
+                -->
+            </xs:element>
+            <xs:element name="building-state">
+                <!-- Стадия строительства дома — параметр для новостроек
+                (обязательный элемент для Москвы и Санкт-Петербурга).
+                Если значение «built-year» и «ready-quarter» указаны в прошлом времени, для
+                тэга «building-state» следует передавать значение «hand-over».
+                -->
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="unfinished">
+                            <!-- строится -->
+                        </xs:enumeration>
+                        <xs:enumeration value="built">
+                            <!-- дом построен, но не сдан -->
+                        </xs:enumeration>
+                        <xs:enumeration value="hand-over">
+                            <!-- сдан в эксплуатацию -->
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="access-control-system" type="yrl:yesno">
+                <!-- Наличие пропускной системы. -->
+            </xs:element>
+            <xs:element name="twenty-four-seven" type="yrl:yesno">
+                <!-- Возможность круглосуточного доступа сотрудников арендатора на объект аренды 7 дней в неделю. -->
+            </xs:element>
+            <xs:element name="lift" type="yrl:yesno">
+                <!-- Наличие лифта. -->
+            </xs:element>
+            <xs:element name="rubbish-chute" type="yrl:yesno">
+                <!-- Наличие мусоропровода. -->
+            </xs:element>
+            <xs:element name="is-elite" type="yrl:yesno">
+                <!-- Элитная недвижимость. -->
+            </xs:element>
+            <xs:element name="parking" type="yrl:yesno">
+                <!-- Наличие охраняемой парковки. -->
+            </xs:element>
+            <xs:element name="parking-places">
+                <!-- Количество предоставляемых парковочных мест. -->
+            </xs:element>
+            <xs:element name="parking-place-price">
+                <!-- Стоимость одного парковочного места в месяц в рублях. -->
+            </xs:element>
+            <xs:element name="parking-guest" type="yrl:yesno">
+                <!-- Наличие гостевых парковочных мест -->
+            </xs:element>
+            <xs:element name="parking-guest-places">
+                <!-- Количество гостевых парковочных мест. -->
+            </xs:element>
+            <xs:element name="alarm" type="yrl:yesno">
+                <!-- Наличие сигнализации. -->
+            </xs:element>
+            <xs:element name="security" type="yrl:yesno">
+                <!-- Наличие охраны. -->
+            </xs:element>
+            <xs:element name="ceiling-height">
+                <!-- Высота потолков в метрах. -->
+            </xs:element>
+            <xs:element name="eating-facilities" type="yrl:yesno">
+                <!-- Наличие общепита в здании.
+                Примечание. Актуально для бизнес-центров и складских комплексов.
+                -->
+            </xs:element>
+            <!-- Описание загородной недвижимости -->
+            <xs:element name="pmg" type="yrl:yesno">
+                <!-- Возможность для постоянного места жительства. -->
+            </xs:element>
+            <xs:element name="kitchen">
+                <!-- Наличие кухни. -->
+            </xs:element>
+            <xs:element name="toilet">
+                <!-- Расположение туалета. Возможные значения: «в доме», «на улице». -->
+            </xs:element>
+            <xs:element name="shower">
+                <!-- Расположение душа. Возможные значения: «в доме», «на улице». -->
+            </xs:element>
+            <xs:element name="pool" type="yrl:yesno">
+                <!-- Наличие бассейна. -->
+            </xs:element>
+            <xs:element name="sauna" type="yrl:yesno">
+                <!-- Наличие сауны/бани. -->
+            </xs:element>
+            <xs:element name="billiard" type="yrl:yesno">
+                <!-- Наличие бильярда. -->
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="internal-id" use="required"/>
+    </xs:complexType>
+
     <xs:element name="realty-feed">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="generation-date" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
-                <xs:element name="offer">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="type" minOccurs="1" maxOccurs="1" type="yrl:OfferType"/>
-                            <xs:element name="property-type">
-                                <!--
-                                Тип недвижимости (только для жилой недвижимости).
-                                Строго ограниченное значение — «жилая».
-                                -->
-                            </xs:element>
-                            <xs:element name="category">
-                                <!--
-                                Категория объекта.
-                                Возможные значения: «комната»/«room», «квартира»/«flat», «таунхаус»/«townhouse», «дом»/«house», «часть дома», «участок»/«lot», «земельный участок», «дом с участком»/«house with lot», «дача»/«cottage», «коммерческая»/«commercial».
-                                -->
-                            </xs:element>
-                            <xs:element name="commercial-type">
-                                <!--
-                                Категория коммерческого объекта. Элемент может повторяться несколько раз, если у объекта есть различные возможные назначения.
-                                Возможные значения: «auto repair» (автосервис), «business» (готовый бизнес), «free purpose» (помещения свободного назначения), «hotel» (гостиница), «land» (земли коммерческого назначения), «legal address» (юридический адрес), «manufacturing» (производственное помещение), «office» (офисные помещения), «public catering» (общепит), «retail» (торговые помещения), «warehouse» (склад).
-                                -->
-                            </xs:element>
-                            <xs:element name="commercial-building-type">
-                                <!--
-                                Тип здания, в котором находится объект.
-                                Возможные значения: «business center» (бизнес-центр), «detached building» (отдельно стоящее здание), «residential building» (встроенное помещение, жилой дом), «shopping center» (торговый центр), «warehouse» (складской комплекс).
-                                -->
-                            </xs:element>
-                            <xs:element name="purpose">
-                                <!--
-                                Рекомендуемое назначение объекта. Элемент может повторяться несколько раз.
-                                Возможные значения: «bank» (помещение для банка), «beauty shop» (салон красоты), «food store» (продуктовый магазин), «medical center» (медицинский центр), «touragency» (турагентство), «show room» (шоу-рум).
-                                -->
-                            </xs:element>
-                            <xs:element name="purpose-warehouse">
-                                <!--
-                                Назначение склада. Элемент может повторяться несколько раз.
-                                Возможные значения: «alcohol» (алкогольный склад), «pharmaceutical storehouse» (фармацевтический склад), «vegetable storehouse» (овощехранилище).
-                                -->
-                            </xs:element>
-                            <xs:element name="url" minOccurs="1" maxOccurs="1">
-                                <!--URL страницы с объявлением. Обязательный параметр для досок объявлений.-->
-                            </xs:element>
-                            <xs:element name="creation-date" type="xs:dateTime" minOccurs="1" maxOccurs="1">
-                                <!--Дата создания объявления (в формате YYYY-MM-DDTHH:mm:ss+00:00) -->
-                            </xs:element>
-                            <xs:element name="last-update-date" type="xs:dateTime">
-                                <!--Дата последнего обновления объявления (в формате YYYY-MM-DDTHH:mm:ss+00:00) -->
-                            </xs:element>
-                            <xs:element name="expire-date" type="xs:dateTime">
-                                <!-- Дата и время, до которых объявление актуально (в формате YYYY-MM-DDTHH:mm:ss+00:00) -->
-                            </xs:element>
-                            <xs:element name="payed-adv" type="yrl:yesno">
-                                <!-- Признак оплаченного объявления (только для досок объявлений) -->
-                            </xs:element>
-                            <xs:element name="manually-added" type="yrl:yesno">
-                                <!-- Признак объявления, добавленного вручную (только для досок объявлений) -->
-                            </xs:element>
-                            <xs:element name="location" minOccurs="1" maxOccurs="1">
-                                <!-- Набор элементов, описывающих местоположение объекта. Во вложенных тегах детализируется информация об адресе объекта. -->
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="country" minOccurs="1" maxOccurs="1">
-                                            <!-- Страна, в которой расположен объект.
-                                            Ограничение. Сейчас принимаются объявления только об объектах недвижимости, расположенных в России.
-                                            -->
-                                        </xs:element>
-                                        <xs:element name="region">
-                                            <!-- Название субъекта РФ (необязательно для Москвы и Санкт-Петербурга). -->
-                                        </xs:element>
-                                        <xs:element name="district">
-                                            <!-- Название района субъекта РФ. -->
-                                        </xs:element>
-                                        <xs:element name="locality-name">
-                                            <!-- Название населенного пункта. -->
-                                        </xs:element>
-                                        <xs:element name="sub-locality-name">
-                                            <!-- Район населенного пункта. -->
-                                        </xs:element>
-                                        <xs:element name="address">
-                                            <!-- Улица и номер дома. -->
-                                        </xs:element>
-                                        <xs:element name="direction">
-                                            <!-- Шоссе (только для Москвы). -->
-                                        </xs:element>
-                                        <xs:element name="distance">
-                                            <!-- Расстояние по шоссе до МКАД (только для Москвы). Указывается в километрах. -->
-                                        </xs:element>
-                                        <xs:element name="latitude">
-                                            <!-- Географическая широта.  -->
-                                        </xs:element>
-                                        <xs:element name="longitude">
-                                            <!-- Географическая долгота. -->
-                                        </xs:element>
-                                        <xs:element name="metro">
-                                            <!-- Ближайшая станция метро (если таковых несколько, каждая должна быть указана в отдельном элементе). Во вложенных тэгах детализируется информация. -->
-                                            <xs:complexType>
-                                                <xs:sequence>
-                                                    <xs:element name="name">
-                                                        <!-- Название станции метро. -->
-                                                    </xs:element>
-                                                    <xs:element name="time-on-transport">
-                                                        <!-- Время до метро в минутах на транспорте. -->
-                                                    </xs:element>
-                                                    <xs:element name="time-on-foot">
-                                                        <!-- Время до метро в минутах пешком. -->
-                                                    </xs:element>
-                                                    <xs:element name="railway-station">
-                                                        <!-- Ближайшая ж/д станция (для загородной недвижимости). -->
-                                                    </xs:element>
-                                                </xs:sequence>
-                                            </xs:complexType>
-                                        </xs:element>
-                                    </xs:sequence>
-                                </xs:complexType>
-                            </xs:element>
-                            <xs:element name="sales-agent">
-                                <!-- Информация о продавце или арендодателе -->
-                                <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="name">
-                                            <!-- Имя продавца, арендодателя или агента. -->
-                                        </xs:element>
-                                        <xs:element name="phone" minOccurs="1">
-                                            <!--
-                                            Контактный номер телефона (указывается в международном формате).
-                                            Если номеров несколько, каждый из них необходимо передавать в отдельном элементе phone.
-                                            Внимание! Для агентств недвижимости обязательно должны быть указаны прямые телефоны агентов.
-                                            -->
-                                        </xs:element>
-                                        <xs:element name="category">
-                                            <!-- Тип продавца или арендодателя. -->
-                                            <xs:simpleType>
-                                                <xs:restriction base="xs:string">
-                                                    <xs:enumeration value="владелец"/>
-                                                    <xs:enumeration value="агентство"/>
-                                                    <xs:enumeration value="застройщик"/>
-                                                    <xs:enumeration value="owner"/>
-                                                    <xs:enumeration value="agency"/>
-                                                    <xs:enumeration value="developer"/>
-                                                </xs:restriction>
-                                            </xs:simpleType>
-                                        </xs:element>
-                                        <xs:element name="organization">
-                                            <!-- Название организации. -->
-                                        </xs:element>
-                                        <xs:element name="agency-id">
-                                            <!-- Внутренний ID агентства в базе партнера (только для досок объявлений). -->
-                                        </xs:element>
-                                        <xs:element name="url">
-                                            <!-- Сайт агентства или застройщика. -->
-                                        </xs:element>
-                                        <xs:element name="email">
-                                            <!-- Электронный адрес продавца. -->
-                                        </xs:element>
-                                        <xs:element name="photo">
-                                            <!-- Ссылка на фотографию агента или логотип компании. -->
-                                        </xs:element>
-                                        <xs:element name="partner">
-                                            <!-- Название партнера, предоставившего объявление (только для досок объявлений). -->
-                                        </xs:element>
-                                    </xs:sequence>
-                                </xs:complexType>
-                            </xs:element>
-                            <xs:element name="price" type="yrl:Price">
-                                <!-- Набор элементов, описывающих стоимость объекта. -->
-                            </xs:element>
-                            <!-- Дополнительная информация об условиях сделки (для жилой недвижимости) -->
-                            <xs:element name="not-for-agents" type="yrl:yesno">
-                                <!-- Просьба агентам не звонить. -->
-                            </xs:element>
-                            <xs:element name="haggle" type="yrl:yesno">
-                                <!-- Торг. -->
-                            </xs:element>
-                            <xs:element name="mortgage" type="yrl:yesno">
-                                <!-- Ипотека. -->
-                            </xs:element>
-                            <xs:element name="prepayment">
-                                <!-- Предоплата. Указывается числовое значение в процентах без знака «%». -->
-                            </xs:element>
-                            <xs:element name="rent-pledge" type="yrl:yesno">
-                                <!-- Залог. -->
-                            </xs:element>
-                            <xs:element name="agent-fee">
-                                <!-- Комиссия агента. Указывается числовое значение в процентах без знака «%». -->
-                            </xs:element>
-                            <xs:element name="deal-status">
-                                <!-- Тип сделки.
-                                Возможные значения: «прямая продажа», «встречная продажа», «встречная продажа», «214 ФЗ», «переуступка».
-                                Для вторичной недвижимости следует отмечать тип сделки — «прямая продажа» или «встречная продажа».
-                                Внимание! Если параметр отсутствует, все объявления партнера в новостройках считаются квартирами от застройщика.
-                                еще значения: «direct rent» (прямая аренда), «subrent» (субаренда), «sale of lease rights» (продажа права аренды).
-                                -->
-                            </xs:element>
-                            <xs:element name="with-pets" type="yrl:yesno">
-                                <!-- Для аренды: можно ли с животными. -->
-                            </xs:element>
-                            <xs:element name="with-children" type="yrl:yesno">
-                                <!-- Для аренды: можно ли с детьми. -->
-                            </xs:element>
-                            <!-- Дополнительная информация об условиях сделки (для коммерческой недвижимости) -->
-                            <xs:element name="commission">
-                                <!-- Размер комиссии для клиента в процентах.
-                                Возможные значения: от 0 (нет комиссии) до 100 (комиссия составляет месячную арендную ставку).
-                                -->
-                            </xs:element>
-                            <xs:element name="security-payment">
-                                <!-- Размер обеспечительного платежа в процентах.
-                                Возможные значения: от 0 (нет платежа) до 100 (платеж составляет месячную арендную ставку).
-                                -->
-                            </xs:element>
-                            <xs:element name="cleaning-included" type="yrl:yesno">
-                                <!-- Клининг входит в договор аренды. -->
-                            </xs:element>
-                            <xs:element name="utilities-included" type="yrl:yesno">
-                                <!-- Коммунальные услуги включены в стоимость в договоре. -->
-                            </xs:element>
-                            <xs:element name="electricity-included" type="yrl:yesno">
-                                <!-- Электроэнергия включена в стоимость в договоре. -->
-                            </xs:element>
-                            <!-- Информация об объекте -->
-                            <xs:element name="area" type="yrl:Space">
-                                <!-- Общая площадь. Обязательное поле для всех объявлений, кроме участков (см. элемент lot-area). -->
-                            </xs:element>
-                            <xs:element name="room-space" type="yrl:Space">
-                                <!-- Площадь комнаты. Количество передаваемых тегов должно соответствовать количеству комнат. -->
-                            </xs:element>
-                            <xs:element name="living-space" type="yrl:Space">
-                                <!-- Жилая площадь (при продаже комнаты — площадь комнаты). -->
-                            </xs:element>
-                            <xs:element name="kitchen-space" type="yrl:Space">
-                                <!-- Площадь кухни. -->
-                            </xs:element>
-                            <xs:element name="lot-area" type="yrl:Space">
-                                <!-- Площадь участка.
-                                Указывается для категорий «дом с участком» и «участок», в коммерческой недвижимости — для
-                                категории «земли коммерческого назначения» или для обозначения площади участка, прилегающего
-                                к отдельно стоящему зданию.
-                                Примечание. Объекты площадью более 1 гектара признаются участками коммерческого назначения.
-                                -->
-                            </xs:element>
-                            <xs:element name="image">
-                                <!-- Фотография (может быть несколько тегов).
-                                Примечание. Обязательное поле для объявлений о сдаче недвижимости в аренду.
-                                Фотографии планировок следует передавать первым тегом image. Не следует передавать изображения, не имеющие прямого отношения к объекту (например, логотипы или фотографии сотрудников).
-                                -->
-                            </xs:element>
-                            <xs:element name="renovation">
-                                <!-- Ремонт.
-                                Рекомендуемые значения: «евро», «дизайнерский», «частичный ремонт», «хороший», «с отделкой», «черновая отделка», «требует ремонта».
-                                -->
-                            </xs:element>
-                            <xs:element name="quality">
-                                <!-- Состояние объекта. Рекомендуемые значения: «хорошее», «отличное», «нормальное», «плохое». -->
-                            </xs:element>
-                            <xs:element name="description">
-                                <!-- Дополнительная информация (описание в свободной форме). -->
-                            </xs:element>
-                            <xs:element name="lot-type">
-                                <!-- Тип участка. Рекомендуемые значения: «ИЖC», «садоводство». -->
-                            </xs:element>
-                            <!-- Описание жилого помещения -->
-                            <xs:element name="new-flat" type="yrl:yesno">
-                                <!-- Обязательный параметр для новостроек: устанавливается, если квартира продается в новостройке. -->
-                            </xs:element>
-                            <xs:element name="rooms" minOccurs="1" maxOccurs="1">
-                                <!-- Общее количество комнат в квартире. -->
-                            </xs:element>
-                            <xs:element name="rooms-offered" minOccurs="1" maxOccurs="1">
-                                <!-- Для продажи и аренды комнат: указывается количество комнат, участвующих в сделке. -->
-                            </xs:element>
-                            <xs:element name="floor">
-                                <!-- Этаж. -->
-                            </xs:element>
-                            <xs:element name="open-plan" type="yrl:yesno">
-                                <!-- Свободная планировка. Строго ограниченные значения — «да», «true», «1», «+». -->
-                            </xs:element>
-                            <xs:element name="apartments" type="yrl:yesno">
-                                <!-- Апартаменты. -->
-                            </xs:element>
-                            <xs:element name="rooms-type">
-                                <!-- Тип комнат. Рекомендуемые значения: «смежные», «раздельные».-->
-                            </xs:element>
-                            <xs:element name="phone" type="yrl:yesno">
-                                <!-- Наличие телефона. -->
-                            </xs:element>
-                            <xs:element name="internet" type="yrl:yesno">
-                                <!-- Наличие интернета. -->
-                            </xs:element>
-                            <xs:element name="room-furniture" type="yrl:yesno">
-                                <!-- Наличие мебели. -->
-                            </xs:element>
-                            <xs:element name="kitchen-furniture" type="yrl:yesno">
-                                <!-- Наличие мебели на кухне. -->
-                            </xs:element>
-                            <xs:element name="television" type="yrl:yesno">
-                                <!-- Наличие телевизора. -->
-                            </xs:element>
-                            <xs:element name="washing-machine" type="yrl:yesno">
-                                <!-- Наличие стиральной машины. -->
-                            </xs:element>
-                            <xs:element name="refrigerator" type="yrl:yesno">
-                                <!-- Наличие холодильника. -->
-                            </xs:element>
-                            <xs:element name="balcony">
-                                <!-- Тип балкона. Возможные значения: «балкон», «лоджия», «2 балкона», «2 лоджии» и т. п. -->
-                            </xs:element>
-                            <xs:element name="bathroom-unit">
-                                <!-- Тип санузла. Рекомендуемые значения: «совмещенный», «раздельный», числовое значение — например «2». -->
-                            </xs:element>
-                            <xs:element name="floor-covering">
-                                <!-- Покрытие пола. Рекомендуемые значения: «паркет», «ламинат», «ковролин», «линолеум». -->
-                            </xs:element>
-                            <xs:element name="window-view">
-                                <!-- Вид из окон. Рекомендуемые значения: «во двор», «на улицу». -->
-                            </xs:element>
-                            <!-- Описание нежилого помещения -->
-                            <xs:element name="entrance-type">
-                                <!-- Вход в помещение. Возможные значения: «separate» (отдельный), «common» (общий). -->
-                            </xs:element>
-                            <xs:element name="phone-lines">
-                                <!-- Количество телефонных линий. -->
-                            </xs:element>
-                            <xs:element name="adding-phone-on-request" type="yrl:yesno">
-                                <!-- Возможность добавления телефонных линий. -->
-                            </xs:element>
-                            <xs:element name="self-selection-telecom" type="yrl:yesno">
-                                <!-- Возможность самостоятельного выбора оператора телекоммуникационных услуг -->
-                            </xs:element>
-                            <xs:element name="air-conditioner" type="yrl:yesno">
-                                <!-- Наличие кондиционирования. -->
-                            </xs:element>
-                            <xs:element name="ventilation" type="yrl:yesno">
-                                <!-- Наличие вентиляции. -->
-                            </xs:element>
-                            <xs:element name="fire-alarm" type="yrl:yesno">
-                                <!-- Наличие пожарной сигнализации. -->
-                            </xs:element>
-                            <xs:element name="heating-supply" type="yrl:yesno">
-                                <!-- Наличие отопления. -->
-                            </xs:element>
-                            <xs:element name="water-supply" type="yrl:yesno">
-                                <!-- Наличие водопровода. -->
-                            </xs:element>
-                            <xs:element name="sewerage-supply" type="yrl:yesno">
-                                <!-- Наличие канализации. -->
-                            </xs:element>
-                            <xs:element name="electricity-supply" type="yrl:yesno">
-                                <!-- Наличие электроснабжения. -->
-                            </xs:element>
-                            <xs:element name="electric-capacity" type="xs:integer">
-                                <!-- Выделенная электрическая мощность в кВт (указывается целое число). -->
-                            </xs:element>
-                            <xs:element name="gas-supply" type="yrl:yesno">
-                                <!-- Подключение к газовым сетям. -->
-                            </xs:element>
-                            <xs:element name="window-type">
-                                <!-- Тип окон. Рекомендуемые значения: «витринные», «обычные», «маленькие». -->
-                            </xs:element>
-                            <!-- Описание особенностей складских и производственных помещений -->
-                            <xs:element name="responsible-storage" type="yrl:yesno">
-                                <!-- Ответственное хранение. -->
-                            </xs:element>
-                            <xs:element name="pallet-price">
-                                <!-- Стоимость палета-места в месяц в рублях с учетом налогов (в случае ответственного хранения). -->
-                            </xs:element>
-                            <xs:element name="freight-elevator" type="yrl:yesno">
-                                <!-- Наличие грузового лифта. -->
-                            </xs:element>
-                            <xs:element name="truck-entrance" type="yrl:yesno">
-                                <!-- Возможность подъезда фуры. -->
-                            </xs:element>
-                            <xs:element name="ramp" type="yrl:yesno">
-                                <!-- Наличие пандуса. -->
-                            </xs:element>
-                            <xs:element name="railway" type="yrl:yesno">
-                                <!-- Наличие ветки железной дороги. -->
-                            </xs:element>
-                            <xs:element name="office-warehouse" type="yrl:yesno">
-                                <!-- Наличие офиса на складе. -->
-                            </xs:element>
-                            <xs:element name="open-area" type="yrl:yesno">
-                                <!-- Наличие открытой площадки. -->
-                            </xs:element>
-                            <xs:element name="service-three-pl" type="yrl:yesno">
-                                <!-- Наличие 3PL (логистических) услуг.-->
-                            </xs:element>
-                            <xs:element name="temperature-comment" type="yrl:yesno">
-                                <!-- Комментарий про температурный режим на складе. -->
-                            </xs:element>
-                            <!-- Описание здания -->
-                            <xs:element name="floors-total">
-                                <!-- Общее количество этажей в доме (обязательный элемент для новостроек). -->
-                            </xs:element>
-                            <xs:element name="building-name">
-                                <!-- Название жилого комплекса (обязательное элемент для новостроек в Москве и Санкт-Петербурге). -->
-                            </xs:element>
-                            <xs:element name="yandex-building-id">
-                                <!-- Идентификатор жилого комплекса в базе данных Яндекса — параметр только для
-                                новостроек (обязательное поле для Москвы и Санкт-Петербурга).
-                                Идентификатор можно получить на сервисе — из url карточки жилого комплекса.
-                                Полный список идентификаторов yandex-building-id предоставляется по запросу на info@realty.yandex.ru.
-                                -->
-                            </xs:element>
-                            <xs:element name="office-class">
-                                <!-- Класс бизнес-центра. Возможные значения: «A», «A+», «B», «B+», «C», «C+». -->
-                            </xs:element>
-                            <xs:element name="building-type">
-                                <!--  Тип дома. Рекомендуемые значения: «кирпичный», «монолит», «панельный», «кирпично-монолитный», «блочный», «деревянный». -->
-                            </xs:element>
-                            <xs:element name="building-series">
-                                <!-- Серия дома. -->
-                            </xs:element>
-                            <xs:element name="building-phase">
-                                <!-- Очередь строительства. Возможные значения: «очередь 1», «II очередь», «3» и т. п. -->
-                            </xs:element>
-                            <xs:element name="building-section">
-                                <!-- Корпус дома. Возможные значения: «корпус 1», «корпус А», «дом 3» и т. п. -->
-                            </xs:element>
-                            <xs:element name="built-year">
-                                <!-- Год постройки, для новостроек — год сдачи (обязательный элемент для новостроек в
-                                Москве и Санкт-Петербурге).
-                                Год необходимо указывать полностью, например, «1996», а не «96»).
-                                -->
-                            </xs:element>
-                            <xs:element name="ready-quarter">
-                                <!-- Для новостроек: квартал сдачи дома (обязательный элемент для новостроек в Москве и Санкт-Петербурге).
-                                Строго ограниченные значения: «1», «2», «3», «4».
-                                -->
-                            </xs:element>
-                            <xs:element name="building-state">
-                                <!-- Стадия строительства дома — параметр для новостроек
-                                (обязательный элемент для Москвы и Санкт-Петербурга).
-                                Если значение «built-year» и «ready-quarter» указаны в прошлом времени, для
-                                тэга «building-state» следует передавать значение «hand-over».
-                                -->
-                                <xs:simpleType>
-                                    <xs:restriction base="xs:string">
-                                        <xs:enumeration value="unfinished">
-                                            <!-- строится -->
-                                        </xs:enumeration>
-                                        <xs:enumeration value="built">
-                                            <!-- дом построен, но не сдан -->
-                                        </xs:enumeration>
-                                        <xs:enumeration value="hand-over">
-                                            <!-- сдан в эксплуатацию -->
-                                        </xs:enumeration>
-                                    </xs:restriction>
-                                </xs:simpleType>
-                            </xs:element>
-                            <xs:element name="access-control-system" type="yrl:yesno">
-                                <!-- Наличие пропускной системы. -->
-                            </xs:element>
-                            <xs:element name="twenty-four-seven" type="yrl:yesno">
-                                <!-- Возможность круглосуточного доступа сотрудников арендатора на объект аренды 7 дней в неделю. -->
-                            </xs:element>
-                            <xs:element name="lift" type="yrl:yesno">
-                                <!-- Наличие лифта. -->
-                            </xs:element>
-                            <xs:element name="rubbish-chute" type="yrl:yesno">
-                                <!-- Наличие мусоропровода. -->
-                            </xs:element>
-                            <xs:element name="is-elite" type="yrl:yesno">
-                                <!-- Элитная недвижимость. -->
-                            </xs:element>
-                            <xs:element name="parking" type="yrl:yesno">
-                                <!-- Наличие охраняемой парковки. -->
-                            </xs:element>
-                            <xs:element name="parking-places">
-                                <!-- Количество предоставляемых парковочных мест. -->
-                            </xs:element>
-                            <xs:element name="parking-place-price">
-                                <!-- Стоимость одного парковочного места в месяц в рублях. -->
-                            </xs:element>
-                            <xs:element name="parking-guest" type="yrl:yesno">
-                                <!-- Наличие гостевых парковочных мест -->
-                            </xs:element>
-                            <xs:element name="parking-guest-places">
-                                <!-- Количество гостевых парковочных мест. -->
-                            </xs:element>
-                            <xs:element name="alarm" type="yrl:yesno">
-                                <!-- Наличие сигнализации. -->
-                            </xs:element>
-                            <xs:element name="security" type="yrl:yesno">
-                                <!-- Наличие охраны. -->
-                            </xs:element>
-                            <xs:element name="ceiling-height">
-                                <!-- Высота потолков в метрах. -->
-                            </xs:element>
-                            <xs:element name="eating-facilities" type="yrl:yesno">
-                                <!-- Наличие общепита в здании.
-                                Примечание. Актуально для бизнес-центров и складских комплексов.
-                                -->
-                            </xs:element>
-                            <!-- Описание загородной недвижимости -->
-                            <xs:element name="pmg" type="yrl:yesno">
-                                <!-- Возможность для постоянного места жительства. -->
-                            </xs:element>
-                            <xs:element name="kitchen">
-                                <!-- Наличие кухни. -->
-                            </xs:element>
-                            <xs:element name="toilet">
-                                <!-- Расположение туалета. Возможные значения: «в доме», «на улице». -->
-                            </xs:element>
-                            <xs:element name="shower">
-                                <!-- Расположение душа. Возможные значения: «в доме», «на улице». -->
-                            </xs:element>
-                            <xs:element name="pool" type="yrl:yesno">
-                                <!-- Наличие бассейна. -->
-                            </xs:element>
-                            <xs:element name="sauna" type="yrl:yesno">
-                                <!-- Наличие сауны/бани. -->
-                            </xs:element>
-                            <xs:element name="billiard" type="yrl:yesno">
-                                <!-- Наличие бильярда. -->
-                            </xs:element>
-                        </xs:sequence>
-                        <xs:attribute name="internal-id" use="required"/>
-                    </xs:complexType>
-                </xs:element>
+                <xs:element name="offer" type="yrl:Offer" minOccurs="1" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
